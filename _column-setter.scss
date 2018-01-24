@@ -86,7 +86,7 @@
 	@if type-of($gut) != number or unitless($gut) == false {
 		@warn "Here is the bp-validator $gut warning."
 	}
-	@if type-of($pad) != number or unitless($pad) == false {
+	@if type-of($pad) != number {
 		@warn "Here is the bp-validator $pad warning."
 	}
 	@for $i from 1 through length($breakpoints) {
@@ -143,7 +143,11 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 		}
 		@if $target == "p"
 		and (type-of($container) == "number" and unitless($container) == true) {
-			@return percentage($pad / width($container))
+			@if(unitless($pad)) {
+				@return percentage($pad / width($container))
+			} @else {
+				@return $pad;
+			}
 		}
 		@if $target == "g"
 		and (type-of($container) == "number" and unitless($container) == true) {
@@ -346,7 +350,7 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 		$all-is-well: false;
 		@warn invalid("grid") + missing(1) + $grid-lesson;
 	}
-	@if $overlay != "overlay" 
+	@if $overlay != "overlay"
 	and $overlay != null {
 		$all-is-well: false;
 		@warn invalid("grid",$class,$overlay) + optional("second",$overlay,"overlay") + $grid-lesson;
@@ -401,8 +405,16 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 								$gp,
 								$gp colspan(p, bp-attribute($bp, cols)),
 								$gc colspan(p, bp-attribute($bp, cols)),
-								$gc colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols)),
-								$gp colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols)),
+								$gc if(
+									unitless($pad),
+									colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols)),
+									calc(#{colspan(1, bp-attribute($bp, cols))} - #{colspan(p, bp-attribute($bp, cols))})
+								),
+								$gp if(
+									unitless($pad),
+									colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols)),
+									calc(#{colspan(1, bp-attribute($bp, cols))} - #{colspan(p, bp-attribute($bp, cols))})
+								),
 								$gp colspan(1, bp-attribute($bp, cols)),
 								$gg colspan(1, bp-attribute($bp, cols)),
 								$gg colspan(1, bp-attribute($bp, cols)) + colspan(g, bp-attribute($bp, cols))
