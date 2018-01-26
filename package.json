@@ -1,0 +1,19 @@
+{
+  "name": "@ethanresnick/column-setter",
+  "version": "1.0.0",
+  "description": "Fork of ProPublica's column-setter library of grid math helpers for CSS",
+  "main": "_column-setter.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethanresnick/column-setter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ethanresnick/column-setter/issues"
+  },
+  "homepage": "https://github.com/ethanresnick/column-setter#readme"
+}
