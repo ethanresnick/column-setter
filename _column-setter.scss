@@ -176,6 +176,9 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 	}
 	@if $target
 	and not $container {
+		@if ($target == "p" and unitless($pad) == false) {
+			@return $pad;
+		}
 		@if (type-of($target) == "number" and unitless($target) == true) {
 			@warn invalid(colspan,$target) + missing(1) + $colspan-lesson;
 			@return false;
